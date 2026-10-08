@@ -1,154 +1,32 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Menu</title>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f2f2f2;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .produit {
-      background: white;
-      padding: 15px;
-      margin: 12px 0;
-      border-radius: 15px;
-    }
-
-    .prix {
-      font-weight: bold;
-    }
-
-    .quantite {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-top: 10px;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 18px;
-      background: #0088cc;
-      color: white;
-    }
-
-    .nombre {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    #panier {
-      margin-top: 25px;
-      background: white;
-      padding: 15px;
-      border-radius: 15px;
-    }
-  </style>
-</head>
-
-<body>
-
-<h1>🍔 MON MENU</h1>
-
 <div class="produit">
-  <h2>🍔 Burger</h2>
-  <div class="prix">8,00 €</div>
-
-  <div class="quantite">
-    <button onclick="modifier('Burger', -1)">−</button>
-    <span class="nombre" id="Burger">0</span>
-    <button onclick="modifier('Burger', 1)">+</button>
-  </div>
-</div>
-
-<div class="produit">
-  <h2>🍕 Pizza</h2>
+  <h2>🦐 MENU</h2>
   <div class="prix">10,00 €</div>
 
   <div class="quantite">
-    <button onclick="modifier('Pizza', -1)">−</button>
-    <span class="nombre" id="Pizza">0</span>
-    <button onclick="modifier('Pizza', 1)">+</button>
+    <button onclick="modifier('MENU', -1)">−</button>
+    <span class="nombre" id="MENU">0</span>
+    <button onclick="modifier('MENU', 1)">+</button>
   </div>
 </div>
 
 <div class="produit">
-  <h2>🍟 Frites</h2>
-  <div class="prix">3,00 €</div>
+  <h2>🥦 Menu brocolis</h2>
+  <div class="prix">20,00 €</div>
 
   <div class="quantite">
-    <button onclick="modifier('Frites', -1)">−</button>
-    <span class="nombre" id="Frites">0</span>
-    <button onclick="modifier('Frites', 1)">+</button>
+    <button onclick="modifier('Menu brocolis', -1)">−</button>
+    <span class="nombre" id="Menu brocolis">0</span>
+    <button onclick="modifier('Menu brocolis', 1)">+</button>
   </div>
 </div>
 
-<div id="panier">
-  <h2>🛒 Panier</h2>
-  <div id="contenu">Panier vide</div>
-  <h3 id="total">Total : 0,00 €</h3>
+<div class="produit">
+  <h2>🍫 Menu chocolat</h2>
+  <div class="prix">30,00 €</div>
+
+  <div class="quantite">
+    <button onclick="modifier('Menu chocolat', -1)">−</button>
+    <span class="nombre" id="Menu chocolat">0</span>
+    <button onclick="modifier('Menu chocolat', 1)">+</button>
+  </div>
 </div>
-
-<script>
-  const produits = {
-    Burger: 8,
-    Pizza: 10,
-    Frites: 3
-  };
-
-  const quantites = {
-    Burger: 0,
-    Pizza: 0,
-    Frites: 0
-  };
-
-  function modifier(produit, changement) {
-    quantites[produit] += changement;
-
-    if (quantites[produit] < 0) {
-      quantites[produit] = 0;
-    }
-
-    document.getElementById(produit).textContent = quantites[produit];
-
-    afficherPanier();
-  }
-
-  function afficherPanier() {
-    let texte = "";
-    let total = 0;
-
-    for (const produit in quantites) {
-      const quantite = quantites[produit];
-
-      if (quantite > 0) {
-        const prix = produits[produit];
-        texte += "• " + produit + " x" + quantite + "<br>";
-        total += prix * quantite;
-      }
-    }
-
-    document.getElementById("contenu").innerHTML =
-      texte || "Panier vide";
-
-    document.getElementById("total").textContent =
-      "Total : " + total.toFixed(2).replace(".", ",") + " €";
-  }
-</script>
-
-</body>
-</html>
