@@ -26,22 +26,29 @@
       border-radius: 15px;
     }
 
-    .produit h2 {
-      margin: 0 0 5px;
-    }
-
     .prix {
       font-weight: bold;
-      margin-bottom: 10px;
+    }
+
+    .quantite {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 10px;
     }
 
     button {
       border: none;
       border-radius: 10px;
-      padding: 10px 15px;
-      font-size: 16px;
+      padding: 8px 14px;
+      font-size: 18px;
       background: #0088cc;
       color: white;
+    }
+
+    .nombre {
+      font-size: 18px;
+      font-weight: bold;
     }
 
     #panier {
@@ -55,56 +62,93 @@
 
 <body>
 
-  <h1>🍔 MON MENU</h1>
+<h1>🍔 MON MENU</h1>
 
-  <div class="produit">
-    <h2>🍔 Burger</h2>
-    <div class="prix">8,00 €</div>
-    <button onclick="ajouter('Burger', 8)">Ajouter</button>
+<div class="produit">
+  <h2>🍔 Burger</h2>
+  <div class="prix">8,00 €</div>
+
+  <div class="quantite">
+    <button onclick="modifier('Burger', -1)">−</button>
+    <span class="nombre" id="Burger">0</span>
+    <button onclick="modifier('Burger', 1)">+</button>
   </div>
+</div>
 
-  <div class="produit">
-    <h2>🍕 Pizza</h2>
-    <div class="prix">10,00 €</div>
-    <button onclick="ajouter('Pizza', 10)">Ajouter</button>
+<div class="produit">
+  <h2>🍕 Pizza</h2>
+  <div class="prix">10,00 €</div>
+
+  <div class="quantite">
+    <button onclick="modifier('Pizza', -1)">−</button>
+    <span class="nombre" id="Pizza">0</span>
+    <button onclick="modifier('Pizza', 1)">+</button>
   </div>
+</div>
 
-  <div class="produit">
-    <h2>🍟 Frites</h2>
-    <div class="prix">3,00 €</div>
-    <button onclick="ajouter('Frites', 3)">Ajouter</button>
+<div class="produit">
+  <h2>🍟 Frites</h2>
+  <div class="prix">3,00 €</div>
+
+  <div class="quantite">
+    <button onclick="modifier('Frites', -1)">−</button>
+    <span class="nombre" id="Frites">0</span>
+    <button onclick="modifier('Frites', 1)">+</button>
   </div>
+</div>
 
-  <div id="panier">
-    <h2>🛒 Mon panier</h2>
-    <div id="contenu">Panier vide</div>
-    <h3 id="total">Total : 0,00 €</h3>
-  </div>
+<div id="panier">
+  <h2>🛒 Panier</h2>
+  <div id="contenu">Panier vide</div>
+  <h3 id="total">Total : 0,00 €</h3>
+</div>
 
-  <script>
-    const panier = [];
+<script>
+  const produits = {
+    Burger: 8,
+    Pizza: 10,
+    Frites: 3
+  };
 
-    function ajouter(nom, prix) {
-      panier.push({nom: nom, prix: prix});
-      afficherPanier();
+  const quantites = {
+    Burger: 0,
+    Pizza: 0,
+    Frites: 0
+  };
+
+  function modifier(produit, changement) {
+    quantites[produit] += changement;
+
+    if (quantites[produit] < 0) {
+      quantites[produit] = 0;
     }
 
-    function afficherPanier() {
-      let texte = "";
-      let total = 0;
+    document.getElementById(produit).textContent = quantites[produit];
 
-      panier.forEach(function(article) {
-        texte += "• " + article.nom + " — " + article.prix.toFixed(2) + " €<br>";
-        total += article.prix;
-      });
+    afficherPanier();
+  }
 
-      document.getElementById("contenu").innerHTML =
-        texte || "Panier vide";
+  function afficherPanier() {
+    let texte = "";
+    let total = 0;
 
-      document.getElementById("total").innerHTML =
-        "Total : " + total.toFixed(2) + " €";
+    for (const produit in quantites) {
+      const quantite = quantites[produit];
+
+      if (quantite > 0) {
+        const prix = produits[produit];
+        texte += "• " + produit + " x" + quantite + "<br>";
+        total += prix * quantite;
+      }
     }
-  </script>
+
+    document.getElementById("contenu").innerHTML =
+      texte || "Panier vide";
+
+    document.getElementById("total").textContent =
+      "Total : " + total.toFixed(2).replace(".", ",") + " €";
+  }
+</script>
 
 </body>
 </html>
